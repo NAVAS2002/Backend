@@ -1,17 +1,17 @@
 <?php
-
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Mesero extends Model
 {
-    use HasFactory;
-    protected $primaryKey = 'id_mesero';
-    protected $fillable = ['id_usuario', 'nombre', 'turno', 'zona'];
+    protected $fillable = ['user_id', 'turno'];
 
     public function usuario() {
-        return $this->belongsTo(User::class, 'id_usuario');
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function pedidos() {
+        return $this->hasMany(Pedido::class);
     }
 }

@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Mesa extends Model
 {
-    use HasFactory;
-    protected $primaryKey = 'id_mesa';
-    protected $fillable = ['codigo_qr'];
+    protected $fillable = ['codigo', 'capacidad', 'disponible'];
+
+    public function pedidos() {
+        return $this->hasMany(Pedido::class);
+    }
 }

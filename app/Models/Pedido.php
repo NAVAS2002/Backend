@@ -6,32 +6,25 @@ use Illuminate\Database\Eloquent\Model;
 
 class Pedido extends Model
 {
-    protected $primaryKey = 'id_pedido';
+    protected $fillable = ['cliente_id', 'mesa_id', 'mesero_id', 'estado'];
 
-    protected $fillable = [
-        'id_cliente',
-        'id_mesa',
-        'fecha_hora',
-        'estado',
-        'total',
-        'id_mesero_entrega',
-        'id_cocinero_asignado',
-        'id_coctelero_asignado',
-        'fecha_entrega',
-    ];
-
-    public function detalles()
-    {
-        return $this->hasMany(DetallePedido::class, 'id_pedido', 'id_pedido');
+    public function cliente() {
+        return $this->belongsTo(Cliente::class);
     }
 
-    public function cliente()
-    {
-        return $this->belongsTo(\App\Models\Cliente::class, 'id_cliente', 'id_cliente');
+    public function mesa() {
+        return $this->belongsTo(Mesa::class);
     }
 
-    public function mesa()
-    {
-        return $this->belongsTo(\App\Models\Mesa::class, 'id_mesa', 'id_mesa');
+    public function mesero() {
+        return $this->belongsTo(Mesero::class);
+    }
+
+    public function detalles() {
+        return $this->hasMany(DetallePedido::class);
+    }
+
+    public function pago() {
+        return $this->hasOne(Pago::class);
     }
 }

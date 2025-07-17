@@ -1,30 +1,12 @@
 <?php
-
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\MenuController;
-use App\Http\Controllers\Api\PedidoController;
-use App\Http\Controllers\Api\AuthApiController;
+use App\Http\Controllers\Api\ProductoController;
+use App\Http\Controllers\AuthController;
 
-Route::get('/menu', function () {
-    $productos = \App\Models\Producto::where('disponible', true)->get();
-    return response()->json(['productos' => $productos]);
-});
-
-
-Route::post('/login', [AuthApiController::class, 'login']);
-Route::post('/registro', [AuthApiController::class, 'registrar']);
-
-Route::middleware('auth:sanctum')->post('/logout', [AuthApiController::class, 'logout']);
-
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/register', [AuthController::class, 'register']);
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/pedidos', [PedidoController::class, 'index']);
-    Route::put('/pedidos/{id}/estado', [PedidoController::class, 'actualizarEstado']);
-    Route::get('/mis-pedidos', [PedidoController::class, 'misPedidos']);
+    Route::apiResource('productos', ProductoController::class);
+    Route::post('/logout', [AuthController::class, 'logout']);
 });
-
-Route::prefix('menu')->group(function () {
-    Route::get('/', [MenuController::class, 'index']);
-    Route::post('/pedido', [MenuController::class, 'crearPedido']);
-});
-
